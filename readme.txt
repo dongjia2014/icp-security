@@ -8,3 +8,8 @@
     HelloController.java 是参考入口类
 
     路径为 com.suixingpay.security.DemoApplicationTests 的测试类，提供了模拟 http post 请求的方法，可参考
+
+其中 必填项且名称必须为如下：
+请求参数：sign reqData
+
+响应参数：sign respData
