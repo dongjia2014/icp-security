@@ -62,7 +62,7 @@ public class SecurityResponseBodyAdvice implements ResponseBodyAdvice, ConstantU
                 //签名
                 String retSign = RSASignature.encryptBASE64(RSASignature.sign(retRespData, RSAEncrypt.loadPrivateKeyByFile(FILEPATH)));
                 //加密
-                retRespData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(retRespData.toString().getBytes(), KEY.getBytes()));
+                retRespData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(retRespData.toString().getBytes(), DES_KEY.getBytes()));
 
                 obj.put("sign", retSign);
                 obj.put("respData", retRespData);

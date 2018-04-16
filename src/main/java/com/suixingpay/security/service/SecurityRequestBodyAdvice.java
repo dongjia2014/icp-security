@@ -87,7 +87,7 @@ public class SecurityRequestBodyAdvice implements RequestBodyAdvice,ConstantUtil
             }
 
             //解密（将请求密文 des 解密）
-            reqData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(reqData), KEY.getBytes()));
+            reqData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(reqData), DES_KEY.getBytes()));
             //解签(需将解密后的明文重新进行 rsa签名，并与上送的 sign 比对)
             boolean verify = RSASignature.doCheck(reqData, reqSign, RSAEncrypt.loadPublicKeyByFile(FILEPATH));
             if (!verify) {

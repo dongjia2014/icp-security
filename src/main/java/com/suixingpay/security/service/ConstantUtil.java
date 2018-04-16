@@ -17,7 +17,7 @@ public interface ConstantUtil {
     /**
      * DES加解密所用的 key
      */
-    String KEY = "!QA2Z@w1sxO*(-8L";
+    String DES_KEY = "!QA2Z@w1sxO*(-8L";
 
     /**
      * 存放公私钥位置

@@ -1,5 +1,6 @@
 package com.suixingpay.security.utils;
 
+import com.suixingpay.security.service.ConstantUtil;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -324,7 +325,6 @@ public class RSAEncrypt {
      */
     public static void main(String[] args) {
         String filepath = "/Users/cxd/Documents/Exercise/ideaDemo/src/main/resources";
-        final String DES_KEY = "!QA2Z@w1sxO*(-8L";
         RSAEncrypt.genKeyPair(filepath);
         System. out.println( "---------------私钥签名过程------------------" );
         String content= "ihep_这是用于签名的原始数据" ;
@@ -342,12 +342,12 @@ public class RSAEncrypt {
 
             System. out. println("验签结果："+RSASignature.doCheck(content, signstr, RSAEncrypt.loadPublicKeyByFile(filepath)));
 
-            String enData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(content.getBytes(), DES_KEY.getBytes()));
+            String enData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(content.getBytes(), ConstantUtil.DES_KEY.getBytes()));
             System.out.println("加密后的数据" + enData);
 
 
             System.out.println("DES开始解密.....");
-            String deData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(enData), DES_KEY.getBytes()));
+            String deData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(enData), ConstantUtil.DES_KEY.getBytes()));
             System.out.println("DES解密后的数据:" + deData);
 
         } catch (Exception e) {
