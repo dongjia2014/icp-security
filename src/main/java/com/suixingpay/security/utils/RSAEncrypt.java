@@ -332,10 +332,6 @@ public class RSAEncrypt {
         try {
             signstr = RSASignature.encryptBASE64(RSASignature.sign(content, RSAEncrypt.loadPrivateKeyByFile(filepath)));
 
-            System. out.println( "签名原串：" +content);
-            System. out.println( "签名串："+signstr);
-            System. out.println();
-            //
             System. out.println( "---------------公钥校验签名------------------" );
             System. out.println( "签名原串：" +content);
             System. out.println( "签名串："+signstr);
