@@ -1,4 +1,4 @@
-package com.suixingpay.security.utils;
+package com.suixingpay.commons;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -12,7 +12,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * RSA签名验签类
- * com.example.demo.service.ideaDemo
+ * com.example.demo.signEncryservice.ideaDemo
  * Created by cxd on 2018/4/2.
  */
 public class RSASignature {

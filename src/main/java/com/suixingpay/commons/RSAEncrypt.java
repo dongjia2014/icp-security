@@ -1,6 +1,5 @@
-package com.suixingpay.security.utils;
+package com.suixingpay.commons;
 
-import com.suixingpay.security.service.ConstantUtil;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -19,7 +18,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * rsa 签名
- * com.example.demo.service.ideaDemo
+ * com.example.demo.signEncryservice.ideaDemo
  * Created by cxd on 2018/4/2.
  * 利用genKeyPair （）方法来生成钥匙对。
  加密：RSAEncrypt.encryptBASE64(RSAEncrypt.encrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)),"要加密的字符串".getBytes()))

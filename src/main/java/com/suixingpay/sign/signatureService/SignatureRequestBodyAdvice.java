@@ -1,9 +1,10 @@
-package com.suixingpay.security.service;
+package com.suixingpay.sign.signatureService;
 
 import com.alibaba.fastjson.JSONObject;
-import com.suixingpay.security.utils.EncryptUtil;
-import com.suixingpay.security.utils.RSAEncrypt;
-import com.suixingpay.security.utils.RSASignature;
+import com.suixingpay.commons.ConstantUtil;
+import com.suixingpay.commons.EncryptUtil;
+import com.suixingpay.commons.RSAEncrypt;
+import com.suixingpay.commons.RSASignature;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,9 @@ import java.lang.reflect.Type;
  * @date 2018-04-03
  * @author cxd
  */
-@ControllerAdvice(basePackages = "com.suixingpay")
-public class SecurityRequestBodyAdvice implements RequestBodyAdvice,ConstantUtil {
-    private final static Logger logger = LoggerFactory.getLogger(SecurityRequestBodyAdvice.class);
+@ControllerAdvice(basePackages = "com.suixingpay.sign")
+public class SignatureRequestBodyAdvice implements RequestBodyAdvice,ConstantUtil {
+    private final static Logger logger = LoggerFactory.getLogger(SignatureRequestBodyAdvice.class);
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -55,7 +56,7 @@ public class SecurityRequestBodyAdvice implements RequestBodyAdvice,ConstantUtil
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
         try {
-            return new MyHttpInputMessage(inputMessage);
+            return new SignatureMessage(inputMessage);
         } catch (Exception e) {
             logger.error("针对方法 {}，解签解密异常：{}",parameter.getMethod().getName(),e.getMessage());
             return inputMessage;
@@ -67,12 +68,12 @@ public class SecurityRequestBodyAdvice implements RequestBodyAdvice,ConstantUtil
         return body;
     }
 
-    class MyHttpInputMessage implements HttpInputMessage {
+    class SignatureMessage implements HttpInputMessage {
         private HttpHeaders headers;
 
         private InputStream body;
 
-        public MyHttpInputMessage(HttpInputMessage inputMessage) throws Exception {
+        public SignatureMessage(HttpInputMessage inputMessage) throws Exception {
             inputMessage.getHeaders().setContentType(MediaType.valueOf(MediaType.APPLICATION_JSON_UTF8_VALUE));
             this.headers = inputMessage.getHeaders();
             //1、解签

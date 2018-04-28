@@ -1,4 +1,4 @@
-package com.suixingpay.security.utils;
+package com.suixingpay.commons;
 
 import com.alibaba.fastjson.JSONObject;
 import sun.misc.BASE64Decoder;
@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 
 /**
  * DES 加解密
- * com.example.demo.service.ideaDemo
+ * com.example.demo.signEncryservice.ideaDemo
  * Created by cxd on 2018/4/2.
  */
 public class EncryptUtil {

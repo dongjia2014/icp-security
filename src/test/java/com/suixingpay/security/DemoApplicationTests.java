@@ -22,11 +22,23 @@ public class DemoApplicationTests {
     private RestTemplate template = new RestTemplate();
 
     @Test
-    public void testMasterDataControllerCreateMasterData() {
+    public void testEncry() {
         try {
-            String url = "http://localhost:" + 1212 + "/";
-            //            String req = "{\"channelNo\":\"SXF0001\",\"msgId\":\"201804021409192968\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\",\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPxaPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiIN/fgiccfqb5NlrIJU0c=\"}";
-            String req = "{\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPx\naPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiI\nN/fgiccfqb5NlrIJU0c=\n\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\n\",\"retCode\":\"000000\",\"retMsg\":\"SUCCESS\",\"msgId\":\"201804021409192968\",\"channelNo\":\"SXF0001\"}";
+            String url = "http://localhost:" + 1212 + "/encry/";
+                        String req = "{\"channelNo\":\"SXF0001\",\"msgId\":\"201804021409192968\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\",\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPxaPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiIN/fgiccfqb5NlrIJU0c=\"}";
+//            String req = "{\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPx\naPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiI\nN/fgiccfqb5NlrIJU0c=\n\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\n\",\"retCode\":\"000000\",\"retMsg\":\"SUCCESS\",\"msgId\":\"201804021409192968\",\"channelNo\":\"SXF0001\"}";
+            JSONObject retJsonObj = template.postForObject(url, req, JSONObject.class);
+            System.out.println(retJsonObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void testShow() {
+        try {
+            String url = "http://localhost:" + 1212 + "/show/";
+            String req = "{\"channelNo\":\"SXF0001\",\"msgId\":\"201804021409192968\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\",\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPxaPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiIN/fgiccfqb5NlrIJU0c=\"}";
+            //            String req = "{\"sign\":\"gvzxlwbzBNzK8zwMdkOQZhtprGB3uKZWheWaAlGqFpF0pMrk+kud9R0AncxQe5JuPXCKNBno/nPx\naPeO/+F1d/gs/ERAP6ZMCEW+sYVtMMvbrstp3QMk+okhOBV17vT2+cHeVgwqROqBNx4yjnx0+AiI\nN/fgiccfqb5NlrIJU0c=\n\",\"reqData\":\"KTUifQ6c9/qwW8YkWRc2f4osnYuNlyPm+NNaXQj6BUVa1Nd4KrXNBg==\n\",\"retCode\":\"000000\",\"retMsg\":\"SUCCESS\",\"msgId\":\"201804021409192968\",\"channelNo\":\"SXF0001\"}";
             JSONObject retJsonObj = template.postForObject(url, req, JSONObject.class);
             System.out.println(retJsonObj);
         } catch (Exception e) {

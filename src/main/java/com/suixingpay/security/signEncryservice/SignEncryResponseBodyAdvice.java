@@ -1,9 +1,11 @@
-package com.suixingpay.security.service;
+package com.suixingpay.security.signEncryservice;
 
 import com.alibaba.fastjson.JSONObject;
-import com.suixingpay.security.utils.EncryptUtil;
-import com.suixingpay.security.utils.RSAEncrypt;
-import com.suixingpay.security.utils.RSASignature;
+import com.suixingpay.security.annotations.SignEncryField;
+import com.suixingpay.commons.ConstantUtil;
+import com.suixingpay.commons.EncryptUtil;
+import com.suixingpay.commons.RSAEncrypt;
+import com.suixingpay.commons.RSASignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -13,15 +15,17 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+
 /**
  * 返回数据加密
  *
  * @author cxd
  * @date 2018-04-03
  */
-@ControllerAdvice(basePackages = "com.suixingpay")
-public class SecurityResponseBodyAdvice implements ResponseBodyAdvice, ConstantUtil {
-    private final static Logger logger = LoggerFactory.getLogger(SecurityResponseBodyAdvice.class);
+@ControllerAdvice(basePackages = "com.suixingpay.security")
+//@ControllerAdvice(basePackageClasses = com.suixingpay.security.signEncryservice.SignEncryResponseBodyAdvice.class)
+public class SignEncryResponseBodyAdvice implements ResponseBodyAdvice, ConstantUtil {
+    private final static Logger logger = LoggerFactory.getLogger(SignEncryResponseBodyAdvice.class);
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
@@ -44,17 +48,15 @@ public class SecurityResponseBodyAdvice implements ResponseBodyAdvice, ConstantU
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         boolean encode = false;
-        if (returnType.getMethod().isAnnotationPresent(SerializedField.class)) {
+        if (returnType.getMethod().isAnnotationPresent(SignEncryField.class)) {
             //获取注解配置的包含和去除字段
-            SerializedField serializedField = returnType.getMethodAnnotation(SerializedField.class);
+            SignEncryField signEncryField = returnType.getMethodAnnotation(SignEncryField.class);
             //是否加密
-            encode = serializedField.encode();
+            encode = signEncryField.encode();
         }
         if (encode) {
             logger.info("对方法method :" + returnType.getMethod().getName() + "返回数据进行加密");
-            //            ObjectMapper objectMapper = new ObjectMapper();
             try {
-                //                String result = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
                 //返回数据
                 JSONObject obj = JSONObject.parseObject(body.toString());
                 //respData
