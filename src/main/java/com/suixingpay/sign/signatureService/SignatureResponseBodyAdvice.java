@@ -1,11 +1,8 @@
 package com.suixingpay.sign.signatureService;
 
 import com.alibaba.fastjson.JSONObject;
+import com.suixingpay.commons.*;
 import com.suixingpay.sign.annotations.SignatureField;
-import com.suixingpay.commons.ConstantUtil;
-import com.suixingpay.commons.EncryptUtil;
-import com.suixingpay.commons.RSAEncrypt;
-import com.suixingpay.commons.RSASignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -60,12 +57,9 @@ public class SignatureResponseBodyAdvice implements ResponseBodyAdvice, Constant
                 //respData
                 String retRespData = obj.getString("respData");
                 //签名
-                String retSign = RSASignature.encryptBASE64(RSASignature.sign(retRespData, RSAEncrypt.loadPrivateKeyByFile(FILEPATH)));
-                //加密
-                retRespData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(retRespData.toString().getBytes(), DES_KEY.getBytes()));
+                byte[] retSign = RSA.encryptByPrivateKey(retRespData.getBytes(), RSAEncrypt.loadPrivateKeyByFile(FILEPATH));
 
                 obj.put("sign", retSign);
-                obj.put("respData", retRespData);
 
                 return obj.toJSONString();
             } catch (Exception e) {

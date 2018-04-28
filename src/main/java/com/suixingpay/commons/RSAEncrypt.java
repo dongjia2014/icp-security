@@ -14,6 +14,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -54,7 +56,13 @@ public class RSAEncrypt {
             String publicKeyString = new String(encryptBASE64(publicKey.getEncoded()));
             // 得到私钥字符串
             String privateKeyString = new String(encryptBASE64(privateKey.getEncoded()));
-            // 将密钥对写入到文件
+
+           /* //方式1： 将密钥封装为map
+            Map<String, Object> map = new HashMap<>();
+            map.put("RSAPublicKey", publicKey);
+            map.put("RSAPrivateKey", privateKey);*/
+
+            //方式2： 将密钥对写入到文件
             FileWriter pubfw = new FileWriter(filePath + "/publicKey.keystore");
             FileWriter prifw = new FileWriter(filePath + "/privateKey.keystore");
             BufferedWriter pubbw = new BufferedWriter(pubfw);
@@ -337,13 +345,13 @@ public class RSAEncrypt {
 
             System. out. println("验签结果："+RSASignature.doCheck(content, signstr, RSAEncrypt.loadPublicKeyByFile(filepath)));
 
-            String enData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(content.getBytes(), ConstantUtil.DES_KEY.getBytes()));
+           /* String enData = EncryptUtil.encryptBASE64(EncryptUtil.encrypt(content.getBytes(), ConstantUtil.DES_KEY.getBytes()));
             System.out.println("加密后的数据" + enData);
 
 
             System.out.println("DES开始解密.....");
             String deData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(enData), ConstantUtil.DES_KEY.getBytes()));
-            System.out.println("DES解密后的数据:" + deData);
+            System.out.println("DES解密后的数据:" + deData);*/
 
         } catch (Exception e) {
             e.printStackTrace();

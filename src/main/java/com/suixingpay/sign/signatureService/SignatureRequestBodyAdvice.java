@@ -1,10 +1,7 @@
 package com.suixingpay.sign.signatureService;
 
 import com.alibaba.fastjson.JSONObject;
-import com.suixingpay.commons.ConstantUtil;
-import com.suixingpay.commons.EncryptUtil;
-import com.suixingpay.commons.RSAEncrypt;
-import com.suixingpay.commons.RSASignature;
+import com.suixingpay.commons.*;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,30 +73,18 @@ public class SignatureRequestBodyAdvice implements RequestBodyAdvice,ConstantUti
         public SignatureMessage(HttpInputMessage inputMessage) throws Exception {
             inputMessage.getHeaders().setContentType(MediaType.valueOf(MediaType.APPLICATION_JSON_UTF8_VALUE));
             this.headers = inputMessage.getHeaders();
-            //1、解签
             String data = IOUtils.toString(inputMessage.getBody(), ENCODING_UTF_8);
             JSONObject obj = JSONObject.parseObject(data);
             //sign
             String reqSign = obj.getString("sign");
-            //respData
-            String reqData = obj.getString("reqData");
-            if(StringUtils.isEmpty(reqSign) || StringUtils.isEmpty(reqData)){
-                throw new Exception("sign or reqData can not be empty！");
+
+            if(StringUtils.isEmpty(reqSign)){
+                throw new Exception("sign can not be empty！");
             }
-
-            //解密（将请求密文 des 解密）
-            reqData = new String(EncryptUtil.decrypt(EncryptUtil.decryptBASE64(reqData), DES_KEY.getBytes()));
-            //解签(需将解密后的明文重新进行 rsa签名，并与上送的 sign 比对)
-            boolean verify = RSASignature.doCheck(reqData, reqSign, RSAEncrypt.loadPublicKeyByFile(FILEPATH));
-            if (!verify) {
-                throw new Exception("Failed to verify the signature");
-            }
-
-            obj.put("sign",reqSign);
-            obj.put("reqData",reqData);
-
+            //私钥解签
+            String decEnglish = new String(RSA.decryptByPrivateKey(reqSign.getBytes(), RSAEncrypt.loadPublicKeyByFile(FILEPATH)));
+            obj.put("reqData",decEnglish);
             this.body = IOUtils.toInputStream(obj.toString(), ENCODING_UTF_8);
-            //                    AESOperator.getInstance().decrypt(IOUtils.toString(inputMessage.getBody(), ENCODINGFMT)),ENCODINGFMT);
         }
 
         @Override
